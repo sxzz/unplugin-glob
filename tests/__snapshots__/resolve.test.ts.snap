@@ -1,18 +1,28 @@
 // Vitest Snapshot v1
 
-exports[`resolve 1`] = `
-[
-  "export { a, f as foo } from './b-2e2c7b43.js';
-",
-  "export { a, f as foo } from './b-2e2c7b43.js';
-",
-  "export { a, f as foo } from './b-2e2c7b43.js';
-",
-  "const a = 'a';
+exports[`resolve > basic.js 1`] = `
+"const a = 'a';
 
 const foo = 'bar';
 
-export { a, foo as f };
-",
-]
+export { a, foo };
+"
+`;
+
+exports[`resolve > exclude-self.js 1`] = `
+"const a = 'a';
+
+const foo = 'bar';
+
+export { a, foo };
+"
+`;
+
+exports[`resolve > ts.ts 1`] = `
+"const a = 'a';
+
+const foo = 'bar';
+
+export { a, foo };
+"
 `;

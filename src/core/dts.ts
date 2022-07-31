@@ -1,15 +1,16 @@
+import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { getExportsStatic } from 'pkg-exports'
 
 export async function getTypeDeclaration(
   map: Record<string, string[]>,
-  root: string
+  filename: string
 ) {
   function relatePath(filepath: string) {
-    return path.relative(path.dirname(root), filepath)
+    return path.relative(path.dirname(filename), filepath)
   }
 
-  const globalPath = relatePath(`${root}-global.d.ts`)
+  const globalPath = relatePath(`${filename}-global.d.ts`)
 
   let global = `declare global {
   namespace GlobExport {\n`
@@ -52,4 +53,13 @@ export async function getTypeDeclaration(
   global += `  }\n}\n\nexport {}`
 
   return { global, declare }
+}
+
+export async function writeTypeDeclaration(
+  map: Record<string, string[]>,
+  filename: string
+) {
+  const { global, declare } = await getTypeDeclaration(map, filename)
+  await writeFile(`${filename}.d.ts`, declare, 'utf-8')
+  await writeFile(`${filename}-global.d.ts`, global, 'utf-8')
 }
