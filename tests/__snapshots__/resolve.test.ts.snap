@@ -1,0 +1,10 @@
+// Vitest Snapshot v1
+
+exports[`resolve > /Users/kevin/Developer/open-source/unplugin-export/tests/fixtures/basic.js 1`] = `
+"const a = 'a';
+
+const b = 'b';
+
+export { a, b };
+"
+`;

@@ -10,6 +10,7 @@ specifiers:
   fast-glob: ^3.2.11
   magic-string: ^0.26.2
   prettier: ^2.7.1
+  rollup: ^2.77.2
   tsup: ^6.2.1
   tsx: ^3.8.0
   typescript: ^4.7.4
@@ -20,7 +21,7 @@ specifiers:
 dependencies:
   '@rollup/pluginutils': 4.2.1
   magic-string: 0.26.2
-  unplugin: 0.8.0_vite@3.0.4
+  unplugin: 0.8.0_rollup@2.77.2+vite@3.0.4
 
 devDependencies:
   '@sxzz/eslint-config': 2.3.5_eslint@8.20.0
@@ -30,6 +31,7 @@ devDependencies:
   eslint-define-config: 1.5.1
   fast-glob: 3.2.11
   prettier: 2.7.1
+  rollup: 2.77.2
   tsup: 6.2.1_typescript@4.7.4
   tsx: 3.8.0
   typescript: 4.7.4
@@ -2709,7 +2711,7 @@ packages:
       '@types/unist': 2.0.6
     dev: true
 
-  /unplugin/0.8.0_vite@3.0.4:
+  /unplugin/0.8.0_rollup@2.77.2+vite@3.0.4:
     resolution: {integrity: sha512-OzOkJ9XOPlD1Cph6qy/p4i/KSUbs76GToXjH/STHpfo6D7y+EqpfAL6G6HaoOw5QLkt9+KWwcxYUmPFkDf1upQ==}
     peerDependencies:
       esbuild: '>=0.13'
@@ -2728,6 +2730,7 @@ packages:
     dependencies:
       acorn: 8.8.0
       chokidar: 3.5.3
+      rollup: 2.77.2
       vite: 3.0.4
       webpack-sources: 3.2.3
       webpack-virtual-modules: 0.4.4
