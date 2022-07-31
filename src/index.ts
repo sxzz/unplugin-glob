@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { createUnplugin } from 'unplugin'
-import { createFilter } from '@rollup/pluginutils'
+import { createFilter, normalizePath } from '@rollup/pluginutils'
 import glob from 'fast-glob'
 import { resolveOption } from './core/options'
 import { parsePattern } from './core/utils'
@@ -14,6 +14,7 @@ export default createUnplugin<Options>((options = {}) => {
   const map: Record<string, string[]> = {}
 
   const name = 'unplugin-glob'
+  const ID_PREFIX = 'glob:'
   return {
     name,
 
@@ -21,13 +22,13 @@ export default createUnplugin<Options>((options = {}) => {
       if (!src || !filter(src)) return
       if (!id.startsWith('glob/')) return
       const pattern = id.replace('glob/', '')
-      return `/glob${src}?pattern=${pattern}`
+      return `${ID_PREFIX}${src}?pattern=${pattern}`
     },
 
     async load(id) {
-      if (!id.startsWith('/glob')) return
+      if (!id.startsWith(ID_PREFIX)) return
 
-      const { src, pattern } = parsePattern(id.replace('/glob', ''))
+      const { src, pattern } = parsePattern(id.replace(ID_PREFIX, ''))
 
       const files = (
         await glob(pattern, {
@@ -35,6 +36,7 @@ export default createUnplugin<Options>((options = {}) => {
           absolute: true,
         })
       )
+        .map((file) => normalizePath(file))
         .filter((file) => file !== src)
         .sort()
       map[pattern] = files
