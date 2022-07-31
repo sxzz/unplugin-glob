@@ -18,6 +18,18 @@ export { a, foo };
 "
 `;
 
+exports[`resolve > import-all.ts 1`] = `
+"const a = 'a';
+
+const foo = 'bar';
+
+console.log(a);
+console.log(foo);
+
+export { a, foo };
+"
+`;
+
 exports[`resolve > ts.ts 1`] = `
 "const a = 'a';
 
