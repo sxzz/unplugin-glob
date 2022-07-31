@@ -1,8 +1,8 @@
 {
-  "name": "unplugin-export",
+  "name": "unplugin-glob",
   "version": "0.0.0",
   "packageManager": "pnpm@7.6.0",
-  "description": "Description.",
+  "description": "Imports or exports files using glob match for ES Module.",
   "keywords": [
     "unplugin",
     "rollup",
@@ -11,13 +11,13 @@
     "webpack"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/sxzz/unplugin-export#readme",
+  "homepage": "https://github.com/sxzz/unplugin-glob#readme",
   "bugs": {
-    "url": "https://github.com/sxzz/unplugin-export/issues"
+    "url": "https://github.com/sxzz/unplugin-glob/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sxzz/unplugin-export.git"
+    "url": "git+https://github.com/sxzz/unplugin-glob.git"
   },
   "author": "三咲智子 <sxzz@sxzz.moe>",
   "files": [

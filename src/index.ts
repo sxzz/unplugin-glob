@@ -15,29 +15,30 @@ export default createUnplugin<Options>((options = {}) => {
 
   const map: Record<string, string[]> = {}
 
-  const name = 'unplugin-export'
+  const name = 'unplugin-glob'
   return {
     name,
-    enforce: undefined,
 
     resolveId(id, src) {
       if (!src || !filter(src)) return
-      if (!id.startsWith('export-glob/')) return
-      const pattern = id.replace('export-glob/', '')
-      return `/export-glob${src}?pattern=${pattern}`
+      if (!id.startsWith('glob/')) return
+      const pattern = id.replace('glob/', '')
+      return `/glob${src}?pattern=${pattern}`
     },
 
     async load(id) {
-      if (!id.startsWith('/export-glob')) return
+      if (!id.startsWith('/glob')) return
 
-      const { src, pattern } = parsePattern(id.replace('/export-glob', ''))
+      const { src, pattern } = parsePattern(id.replace('/glob', ''))
 
       const files = (
         await glob(pattern, {
           cwd: src ? path.dirname(src) : root,
           absolute: true,
         })
-      ).filter((file) => file !== src)
+      )
+        .filter((file) => file !== src)
+        .sort()
       map[pattern] = files
 
       const contents = files.map((file) => `export * from '${file}'`).join('\n')
@@ -47,7 +48,7 @@ export default createUnplugin<Options>((options = {}) => {
 
     async buildEnd() {
       if (!opt.dts) return
-      if (opt.dts === true) opt.dts = path.resolve(root, 'export-glob')
+      if (opt.dts === true) opt.dts = path.resolve(root, 'glob')
 
       const { global, declare } = await getTypeDeclaration(map, opt.dts)
       await writeFile(`${opt.dts}.d.ts`, declare, 'utf-8')

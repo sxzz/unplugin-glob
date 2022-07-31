@@ -1,13 +1,13 @@
-# unplugin-export [![npm](https://img.shields.io/npm/v/unplugin-export.svg)](https://npmjs.com/package/unplugin-export)
+# unplugin-glob [![npm](https://img.shields.io/npm/v/unplugin-glob.svg)](https://npmjs.com/package/unplugin-glob)
 
-[![Unit Test](https://github.com/sxzz/unplugin-export/actions/workflows/unit-test.yml/badge.svg)](https://github.com/sxzz/unplugin-export/actions/workflows/unit-test.yml)
+[![Unit Test](https://github.com/sxzz/unplugin-glob/actions/workflows/unit-test.yml/badge.svg)](https://github.com/sxzz/unplugin-glob/actions/workflows/unit-test.yml)
 
-Starter template for [unplugin](https://github.com/unjs/unplugin).
+Imports or exports files using glob match for ES Module.
 
 ## Installation
 
 ```bash
-npm i unplugin-export
+npm i unplugin-glob
 ```
 
 <details>
@@ -15,10 +15,10 @@ npm i unplugin-export
 
 ```ts
 // vite.config.ts
-import UnpluginExport from 'unplugin-export/vite'
+import UnpluginGlob from 'unplugin-glob/vite'
 
 export default defineConfig({
-  plugins: [UnpluginExport()],
+  plugins: [UnpluginGlob()],
 })
 ```
 
@@ -29,10 +29,10 @@ export default defineConfig({
 
 ```ts
 // rollup.config.js
-import UnpluginExport from 'unplugin-export/rollup'
+import UnpluginGlob from 'unplugin-glob/rollup'
 
 export default {
-  plugins: [UnpluginExport()],
+  plugins: [UnpluginGlob()],
 }
 ```
 
@@ -46,7 +46,7 @@ export default {
 import { build } from 'esbuild'
 
 build({
-  plugins: [require('unplugin-export/esbuild')()],
+  plugins: [require('unplugin-glob/esbuild')()],
 })
 ```
 
@@ -59,7 +59,7 @@ build({
 // webpack.config.js
 module.exports = {
   /* ... */
-  plugins: [require('unplugin-export/webpack')()],
+  plugins: [require('unplugin-glob/webpack')()],
 }
 ```
 
@@ -72,7 +72,7 @@ module.exports = {
 // vue.config.js
 module.exports = {
   configureWebpack: {
-    plugins: [require('unplugin-export/webpack')()],
+    plugins: [require('unplugin-glob/webpack')()],
   },
 }
 ```

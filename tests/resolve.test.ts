@@ -12,7 +12,7 @@ test('resolve', async () => {
 
   const bundle = await rollup({
     input: fixtures,
-    plugins: [Plugin({ dts: path.resolve(__dirname, 'fixtures/export-glob') })],
+    plugins: [Plugin({ dts: path.resolve(__dirname, 'fixtures/glob') })],
   })
   const { output } = await bundle.generate({})
   expect(

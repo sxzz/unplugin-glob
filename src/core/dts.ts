@@ -17,7 +17,11 @@ export async function getTypeDeclaration(
   let declare = `/* eslint-disable @typescript-eslint/triple-slash-reference */
 /// <reference path="${globalPath}" />\n`
 
-  for (const [idx, [id, files]] of Object.entries(map).entries()) {
+  const sortedEntries = Object.entries(map).sort(([a], [b]) =>
+    a.localeCompare(b)
+  )
+
+  for (const [idx, [id, files]] of sortedEntries.entries()) {
     const globalName = `Exports${idx}`
 
     const exports = (
@@ -34,7 +38,7 @@ export async function getTypeDeclaration(
 
     global += `    type ${globalName} = ${typing};\n`
 
-    declare += `declare module 'export-glob/${id}' {\n`
+    declare += `declare module 'glob/${id}' {\n`
     for (const exportName of exports) {
       declare += `  export const ${exportName}: GlobExport.${globalName}['${exportName}']\n`
     }
