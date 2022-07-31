@@ -79,6 +79,33 @@ module.exports = {
 
 <br></details>
 
+## Usage
+
+```ts
+import * as all from 'glob/./some-path/*.js'
+
+console.log(all.sth)
+
+export * from 'glob/./some-path/**'
+```
+
+## Configuration
+
+```ts
+AutoImport({
+  // targets to resolve
+  include: [/\.m?[jt]sx?$/],
+  exclude: options.exclude || [/\.d\.ts$/],
+
+  root: process.cwd(),
+
+  // Filepath to generate corresponding .d.ts files.
+  // Defaults to both './glob.d.ts' and 'glob-global.d.ts' when provided `true`.
+  // Set `false` to disable.
+  dts: false, // boolean or string
+})
+```
+
 ## Sponsors
 
 <p align="center">
