@@ -75,6 +75,7 @@
   "dependencies": {
     "@rollup/pluginutils": "^4.2.1",
     "magic-string": "^0.26.2",
+    "pkg-exports": "^0.0.1",
     "unplugin": "^0.8.0"
   },
   "devDependencies": {

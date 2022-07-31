@@ -1,2 +1,2 @@
-export * from './**?glob'
-export * from './exclude-self*?glob'
+export * from 'export-glob/./mod/*'
+export * from 'export-glob/./exclude-self.j*'
