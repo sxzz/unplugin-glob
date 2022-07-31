@@ -8,3 +8,12 @@ const b = 'b';
 export { a, b };
 "
 `;
+
+exports[`resolve > /Users/kevin/Developer/open-source/unplugin-export/tests/fixtures/exclude-self.js 1`] = `
+"const a = 'a';
+
+const b = 'b';
+
+export { a, b };
+"
+`;

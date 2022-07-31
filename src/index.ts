@@ -28,16 +28,14 @@ export default createUnplugin<Options>((options = {}) => {
 
       const { src, pattern } = parsePattern(id.replace('/export-glob', ''))
 
-      const files = await glob(pattern, {
-        cwd: src ? path.dirname(src) : root,
-        absolute: true,
-      })
-
-      const contents = files
-        .map((file) => {
-          return `export * from '${file}'`
+      const files = (
+        await glob(pattern, {
+          cwd: src ? path.dirname(src) : root,
+          absolute: true,
         })
-        .join('\n')
+      ).filter((file) => file !== src)
+
+      const contents = files.map((file) => `export * from '${file}'`).join('\n')
 
       return `${contents}\n`
     },
