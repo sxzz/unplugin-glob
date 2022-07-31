@@ -12,9 +12,9 @@ export async function getTypeDeclaration(
   const globalPath = relatePath(`${root}-global.d.ts`)
 
   let global = `declare global {
-  namespace GlobExport {
-`
-  let declare = `/* eslint-disable @typescript-eslint/triple-slash-reference */
+  namespace GlobExport {\n`
+
+  let declare = `/* eslint-disable */
 /// <reference path="${globalPath}" />\n`
 
   const sortedEntries = Object.entries(map).sort(([a], [b]) =>
@@ -37,6 +37,10 @@ export async function getTypeDeclaration(
     if (typing.length === 0) typing = '{}'
 
     global += `    type ${globalName} = ${typing};\n`
+
+    if (id.split('*').length > 2) {
+      declare += `// @ts-expect-error\n`
+    }
 
     declare += `declare module 'glob/${id}' {\n`
     for (const exportName of exports) {

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/triple-slash-reference */
+/* eslint-disable */
 /// <reference path="glob-global.d.ts" />
 declare module 'glob/./exclude-self.j*' {
 }
@@ -10,6 +10,7 @@ declare module 'glob/./mod/*.ts' {
   export const a: GlobExport.Exports2['a']
   export const foo: GlobExport.Exports2['foo']
 }
+// @ts-expect-error
 declare module 'glob/./mod/**' {
   export const a: GlobExport.Exports3['a']
   export const foo: GlobExport.Exports3['foo']
