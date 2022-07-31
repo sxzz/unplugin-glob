@@ -83,7 +83,7 @@
     "@types/node": "*",
     "bumpp": "^8.2.1",
     "eslint": "^8.20.0",
-    "eslint-define-config": "^1.5.1",
+    "eslint-define-config": "^1.6.0",
     "fast-glob": "^3.2.11",
     "prettier": "^2.7.1",
     "rollup": "^2.77.2",
@@ -91,7 +91,7 @@
     "tsx": "^3.8.0",
     "typescript": "^4.7.4",
     "vite": "^3.0.4",
-    "vitest": "^0.19.1"
+    "vitest": "^0.20.2"
   },
   "engines": {
     "node": ">=14.19.0"
