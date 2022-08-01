@@ -45,13 +45,15 @@ export default createUnplugin<Options>((options = {}) => {
 
       const contents = files.map((file) => `export * from '${file}'`).join('\n')
 
+      if (opt.dts) await writeTypeDeclaration(map, opt.dts)
+
       return `${contents}\n`
     },
 
-    async buildEnd() {
-      if (!opt.dts) return
-      if (opt.dts === true) opt.dts = path.resolve(opt.root, 'glob')
-      await writeTypeDeclaration(map, opt.dts)
+    vite: {
+      async configResolved(config) {
+        opt.root = config.root
+      },
     },
   }
 })

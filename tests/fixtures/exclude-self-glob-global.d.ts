@@ -1,3 +1,4 @@
+/* eslint-disable */
 declare global {
   namespace GlobExport {
     type ExportsExcludeSelf0 = {};
