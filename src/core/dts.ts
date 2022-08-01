@@ -12,7 +12,8 @@ export async function getTypeDeclaration(map: GlobMap, filename: string) {
 
   const globalPath = relatePath(`${filename}-global.d.ts`)
 
-  let global = `declare global {
+  let global = `/* eslint-disable */
+declare global {
   namespace GlobExport {\n`
 
   let declare = `/* eslint-disable */
@@ -32,7 +33,7 @@ export async function getTypeDeclaration(map: GlobMap, filename: string) {
 
     let typing = files
       .map((file) => {
-        const relative = `./${relatePath(file)}`.replace(/\.ts$/, '')
+        const relative = `./${relatePath(file)}`.replace(/\.tsx?$/, '')
         return `typeof import('${relative}')`
       })
       .join(' & ')
