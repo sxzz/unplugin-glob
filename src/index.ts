@@ -5,6 +5,7 @@ import glob from 'fast-glob'
 import { resolveOption } from './core/options'
 import { parsePattern } from './core/utils'
 import { writeTypeDeclaration } from './core/dts'
+import { ID_PREFIX } from './core/constants'
 import type { Options } from './core/options'
 
 export default createUnplugin<Options>((options = {}) => {
@@ -14,21 +15,21 @@ export default createUnplugin<Options>((options = {}) => {
   const map: Record<string, string[]> = {}
 
   const name = 'unplugin-glob'
-  const ID_PREFIX = 'glob:'
   return {
     name,
 
     resolveId(id, src) {
+      if (!id.startsWith(ID_PREFIX)) return
       if (!src || !filter(src)) return
-      if (!id.startsWith('glob/')) return
-      const pattern = id.replace('glob/', '')
-      return `${ID_PREFIX}${src}?pattern=${pattern}`
+
+      const pattern = id.replace(ID_PREFIX, '')
+      return `${ID_PREFIX}${src}:${pattern}`
     },
 
     async load(id) {
       if (!id.startsWith(ID_PREFIX)) return
 
-      const { src, pattern } = parsePattern(id.replace(ID_PREFIX, ''))
+      const [src, pattern] = id.replace(ID_PREFIX, '').split(`:`, 2)
 
       const files = (
         await glob(pattern, {

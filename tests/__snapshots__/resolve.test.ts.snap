@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`resolve > basic.js 1`] = `
+exports[`resolve > basic 1`] = `
 "const a = 'a';
 
 const foo = 'bar';
@@ -9,7 +9,7 @@ export { a, foo };
 "
 `;
 
-exports[`resolve > exclude-self.js 1`] = `
+exports[`resolve > exclude-self 1`] = `
 "const a = 'a';
 
 const foo = 'bar';
@@ -18,7 +18,7 @@ export { a, foo };
 "
 `;
 
-exports[`resolve > import-all.ts 1`] = `
+exports[`resolve > import-all 1`] = `
 "const a = 'a';
 
 const foo = 'bar';
@@ -30,7 +30,7 @@ export { a, foo };
 "
 `;
 
-exports[`resolve > ts.ts 1`] = `
+exports[`resolve > ts 1`] = `
 "const a = 'a';
 
 const foo = 'bar';

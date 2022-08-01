@@ -10,11 +10,18 @@ describe('resolve', async () => {
     cwd: __dirname,
   })
   for (const fixture of fixtures) {
-    test(path.basename(fixture), async () => {
+    const ext = path.extname(fixture)
+    const filename = path.basename(fixture, ext)
+
+    test(filename, async () => {
       const bundle = await rollup({
         input: fixture,
         treeshake: false,
-        plugins: [Plugin()],
+        plugins: [
+          Plugin({
+            dts: path.resolve(path.dirname(fixture), `${filename}-glob`),
+          }),
+        ],
       })
       const { output } = await bundle.generate({})
       expect(output[0].code).toMatchSnapshot()

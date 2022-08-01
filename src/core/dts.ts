@@ -1,6 +1,7 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { getExportsStatic } from 'pkg-exports'
+import { ID_PREFIX } from './constants'
 
 export async function getTypeDeclaration(
   map: Record<string, string[]>,
@@ -43,7 +44,7 @@ export async function getTypeDeclaration(
       declare += `// @ts-expect-error\n`
     }
 
-    declare += `declare module 'glob/${id}' {\n`
+    declare += `declare module '${ID_PREFIX}${id}' {\n`
     for (const exportName of exports) {
       declare += `  export const ${exportName}: GlobExport.${globalName}['${exportName}']\n`
     }

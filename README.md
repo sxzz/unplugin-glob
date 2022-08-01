@@ -82,11 +82,11 @@ module.exports = {
 ## Usage
 
 ```ts
-import * as all from 'glob/./some-path/*.js'
+import * as all from 'glob:./some-path/*.js'
 
 console.log(all.sth)
 
-export * from 'glob/./some-path/**'
+export * from 'glob:./some-path/**'
 ```
 
 ## Configuration
