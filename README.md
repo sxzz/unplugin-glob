@@ -4,6 +4,11 @@
 
 Imports or exports files using glob match for ES Module.
 
+# Features
+
+- ⚡️ Supports Vite, Webpack, Vue CLI, Rollup, esbuild and more, powered by [unplugin](https://github.com/unjs/unplugin).
+- 🦾 Full TypeScript support.
+
 ## Installation
 
 ```bash
@@ -82,11 +87,12 @@ module.exports = {
 ## Usage
 
 ```ts
-import * as all from 'glob:./some-path/*.js'
+// To avoid type declaration conflicts, a name is needed for each directory.
+import * as all from 'glob:name:./some-path/*.js'
 
 console.log(all.sth)
 
-export * from 'glob:./some-path/**'
+export * from 'glob:name:./some-path/**'
 ```
 
 ## Configuration

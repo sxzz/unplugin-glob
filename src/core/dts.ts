@@ -2,11 +2,10 @@ import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { getExportsStatic } from 'pkg-exports'
 import { ID_PREFIX } from './constants'
+import { pascalCase } from './utils'
+import type { GlobMap } from '..'
 
-export async function getTypeDeclaration(
-  map: Record<string, string[]>,
-  filename: string
-) {
+export async function getTypeDeclaration(map: GlobMap, filename: string) {
   function relatePath(filepath: string) {
     return path.relative(path.dirname(filename), filepath)
   }
@@ -24,7 +23,8 @@ export async function getTypeDeclaration(
   )
 
   for (const [idx, [id, files]] of sortedEntries.entries()) {
-    const globalName = `Exports${idx}`
+    const name = pascalCase(id.split(':')[0])
+    const globalName = `Exports${name}${idx}`
 
     const exports = (
       await Promise.all(files.map((file) => getExportsStatic(`file://${file}`)))
@@ -56,10 +56,7 @@ export async function getTypeDeclaration(
   return { global, declare }
 }
 
-export async function writeTypeDeclaration(
-  map: Record<string, string[]>,
-  filename: string
-) {
+export async function writeTypeDeclaration(map: GlobMap, filename: string) {
   const { global, declare } = await getTypeDeclaration(map, filename)
   await writeFile(`${filename}.d.ts`, declare, 'utf-8')
   await writeFile(`${filename}-global.d.ts`, global, 'utf-8')

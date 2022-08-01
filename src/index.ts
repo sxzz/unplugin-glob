@@ -3,16 +3,17 @@ import { createUnplugin } from 'unplugin'
 import { createFilter, normalizePath } from '@rollup/pluginutils'
 import glob from 'fast-glob'
 import { resolveOption } from './core/options'
-import { parsePattern } from './core/utils'
 import { writeTypeDeclaration } from './core/dts'
 import { ID_PREFIX } from './core/constants'
 import type { Options } from './core/options'
+
+export type GlobMap = Record<string /* name:pattern */, string[]>
 
 export default createUnplugin<Options>((options = {}) => {
   const opt = resolveOption(options)
   const filter = createFilter(opt.include, opt.exclude)
 
-  const map: Record<string, string[]> = {}
+  const map: GlobMap = {}
 
   const name = 'unplugin-glob'
   return {
@@ -22,14 +23,14 @@ export default createUnplugin<Options>((options = {}) => {
       if (!id.startsWith(ID_PREFIX)) return
       if (!src || !filter(src)) return
 
-      const pattern = id.replace(ID_PREFIX, '')
-      return `${ID_PREFIX}${src}:${pattern}`
+      const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
+      return `${ID_PREFIX}${name}:${src}:${pattern}`
     },
 
     async load(id) {
       if (!id.startsWith(ID_PREFIX)) return
 
-      const [src, pattern] = id.replace(ID_PREFIX, '').split(`:`, 2)
+      const [name, src, pattern] = id.replace(ID_PREFIX, '').split(`:`, 3)
 
       const files = (
         await glob(pattern, {
@@ -40,7 +41,7 @@ export default createUnplugin<Options>((options = {}) => {
         .map((file) => normalizePath(file))
         .filter((file) => file !== src)
         .sort()
-      map[pattern] = files
+      map[`${name}:${pattern}`] = files
 
       const contents = files.map((file) => `export * from '${file}'`).join('\n')
 
@@ -50,8 +51,7 @@ export default createUnplugin<Options>((options = {}) => {
     async buildEnd() {
       if (!opt.dts) return
       if (opt.dts === true) opt.dts = path.resolve(opt.root, 'glob')
-
-      writeTypeDeclaration(map, opt.dts)
+      await writeTypeDeclaration(map, opt.dts)
     },
   }
 })
