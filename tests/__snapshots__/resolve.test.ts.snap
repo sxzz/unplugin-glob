@@ -1,5 +1,14 @@
 // Vitest Snapshot v1
 
+exports[`resolve > : 1`] = `
+"const a = 'a';
+
+const foo = 'bar';
+
+export { a, foo };
+"
+`;
+
 exports[`resolve > basic 1`] = `
 "const a = 'a';
 

@@ -24,22 +24,28 @@ export default createUnplugin<Options>((options = {}) => {
       if (!src || !filter(src)) return
 
       const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
-      return `${ID_PREFIX}${name}:${src}:${pattern}`
+      return `${ID_PREFIX}${name}:${src.replaceAll(
+        ':',
+        (s) => `\\${s}`
+      )}:${pattern}`
     },
 
     async load(id) {
       if (!id.startsWith(ID_PREFIX)) return
 
-      const [name, src, pattern] = id.replace(ID_PREFIX, '').split(`:`, 3)
+      const [name, src, pattern] = id
+        .replace(ID_PREFIX, '')
+        .split(/(?<!\\):/, 3)
+      const filename = src.replaceAll('\\:', ':')
 
       const files = (
         await glob(pattern, {
-          cwd: src ? path.dirname(src) : opt.root,
+          cwd: filename ? path.dirname(filename) : opt.root,
           absolute: true,
         })
       )
         .map((file) => normalizePath(file))
-        .filter((file) => file !== src)
+        .filter((file) => file !== normalizePath(filename))
         .sort()
       map[`${name}:${pattern}`] = files
 

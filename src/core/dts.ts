@@ -1,13 +1,14 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { getExportsStatic } from 'pkg-exports'
+import { normalizePath } from '@rollup/pluginutils'
 import { ID_PREFIX } from './constants'
 import { pascalCase } from './utils'
 import type { GlobMap } from '..'
 
 export async function getTypeDeclaration(map: GlobMap, filename: string) {
   function relatePath(filepath: string) {
-    return path.relative(path.dirname(filename), filepath)
+    return normalizePath(path.relative(path.dirname(filename), filepath))
   }
 
   const globalPath = relatePath(`${filename}-global.d.ts`)
