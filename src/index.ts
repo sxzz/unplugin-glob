@@ -24,8 +24,8 @@ export default createUnplugin<Options>((options = {}) => {
       if (!src || !filter(src)) return
 
       const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
-      return `${ID_PREFIX}${name}:${src.replaceAll(
-        ':',
+      return `${ID_PREFIX}${name}:${src.replace(
+        /:/g,
         (s) => `\\${s}`
       )}:${pattern}`
     },
@@ -36,7 +36,7 @@ export default createUnplugin<Options>((options = {}) => {
       const [name, src, pattern] = id
         .replace(ID_PREFIX, '')
         .split(/(?<!\\):/, 3)
-      const filename = src.replaceAll('\\:', ':')
+      const filename = src.replace(/\\:/g, ':')
 
       const files = (
         await glob(pattern, {
