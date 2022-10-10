@@ -98,7 +98,7 @@ export * from 'glob:name:./some-path/**'
 ## Configuration
 
 ```ts
-AutoImport({
+Glob({
   // targets to resolve
   include: [/\.m?[jt]sx?$/],
   exclude: options.exclude || [/\.d\.ts$/],
