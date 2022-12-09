@@ -57,7 +57,7 @@ export default createUnplugin<Options>((options = {}) => {
     },
 
     vite: {
-      async configResolved(config) {
+      configResolved(config) {
         opt.root = config.root
       },
     },
