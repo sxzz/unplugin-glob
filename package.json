@@ -76,22 +76,22 @@
     "@rollup/pluginutils": "^5.0.2",
     "magic-string": "^0.27.0",
     "pkg-exports": "^0.1.2",
-    "unplugin": "^1.0.0"
+    "unplugin": "^1.0.1"
   },
   "devDependencies": {
     "@sxzz/eslint-config": "^2.4.4",
-    "@types/node": "^18.11.12",
+    "@types/node": "^18.11.18",
     "bumpp": "^8.2.1",
-    "eslint": "^8.29.0",
-    "eslint-define-config": "^1.12.0",
+    "eslint": "^8.31.0",
+    "eslint-define-config": "^1.13.0",
     "fast-glob": "^3.2.12",
     "prettier": "^2.8.1",
-    "rollup": "^3.7.0",
+    "rollup": "^3.9.1",
     "tsup": "^6.5.0",
     "tsx": "^3.12.1",
     "typescript": "^4.9.4",
-    "vite": "^4.0.0",
-    "vitest": "^0.25.6"
+    "vite": "^4.0.4",
+    "vitest": "^0.26.3"
   },
   "engines": {
     "node": ">=14.19.0"
