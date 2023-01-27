@@ -1,6 +1,6 @@
 {
   "name": "unplugin-glob",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "packageManager": "pnpm@7.6.0",
   "description": "Imports or exports files using glob match for ES Module.",
   "keywords": [
