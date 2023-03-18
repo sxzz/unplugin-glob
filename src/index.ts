@@ -9,13 +9,15 @@ import type { Options } from './core/options'
 
 export type GlobMap = Record<string /* name:pattern */, string[]>
 
+const name = 'unplugin-glob'
+const DRIVER_DIVIDER = '[DRIVER_DIVIDER]'
+const DRIVER_DIVIDER_REGEXP = /\[DRIVER_DIVIDER]/g
+
 export default createUnplugin<Options>((options = {}) => {
   const opt = resolveOption(options)
   const filter = createFilter(opt.include, opt.exclude)
-
   const map: GlobMap = {}
 
-  const name = 'unplugin-glob'
   return {
     name,
 
@@ -26,17 +28,15 @@ export default createUnplugin<Options>((options = {}) => {
       const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
       return `${ID_PREFIX}${name}:${src.replace(
         /:/g,
-        (s) => `\\${s}`
+        DRIVER_DIVIDER
       )}:${pattern}`
     },
 
     async load(id) {
       if (!id.startsWith(ID_PREFIX)) return
 
-      const [name, src, pattern] = id
-        .replace(ID_PREFIX, '')
-        .split(/(?<!\\):/, 3)
-      const filename = src.replace(/\\:/g, ':')
+      const [name, src, pattern] = id.replace(ID_PREFIX, '').split(':', 3)
+      const filename = src.replace(DRIVER_DIVIDER_REGEXP, ':')
 
       const files = (
         await glob(pattern, {
