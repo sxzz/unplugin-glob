@@ -1,7 +1,7 @@
 {
   "name": "unplugin-glob",
   "version": "0.3.2",
-  "packageManager": "pnpm@8.5.1",
+  "packageManager": "pnpm@8.6.0",
   "description": "Imports or exports files using glob match for ES Module.",
   "keywords": [
     "unplugin",
@@ -74,16 +74,16 @@
   },
   "devDependencies": {
     "@sxzz/eslint-config": "^2.4.6",
-    "@types/node": "^18.16.14",
+    "@types/node": "^18.16.16",
     "bumpp": "^9.1.0",
     "eslint": "^8.41.0",
     "eslint-define-config": "^1.20.0",
     "prettier": "^2.8.8",
-    "rollup": "^3.22.1",
+    "rollup": "^3.23.0",
     "tsup": "^6.7.0",
     "tsx": "^3.12.7",
     "typescript": "^5.0.4",
-    "vite": "^4.3.8",
+    "vite": "^4.3.9",
     "vitest": "^0.31.1"
   },
   "engines": {
