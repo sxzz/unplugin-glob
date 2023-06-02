@@ -2,6 +2,7 @@ import path from 'node:path'
 import { describe, expect, test } from 'vitest'
 import { rollup } from 'rollup'
 import glob from 'fast-glob'
+import Esbuild from 'rollup-plugin-esbuild'
 import Plugin from '../src/rollup'
 
 describe('resolve', async () => {
@@ -21,6 +22,7 @@ describe('resolve', async () => {
           Plugin({
             dts: path.resolve(path.dirname(fixture), `${filename}-glob`),
           }),
+          Esbuild(),
         ],
       })
       const { output } = await bundle.generate({})

@@ -1,27 +1,27 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`resolve > basic 1`] = `
-"const a = 'a';
+"const a = \\"a\\";
 
-const foo = 'bar';
+const foo = \\"bar\\";
 
 export { a, foo };
 "
 `;
 
 exports[`resolve > exclude-self 1`] = `
-"const a = 'a';
+"const a = \\"a\\";
 
-const foo = 'bar';
+const foo = \\"bar\\";
 
 export { a, foo };
 "
 `;
 
 exports[`resolve > import-all 1`] = `
-"const a = 'a';
+"const a = \\"a\\";
 
-const foo = 'bar';
+const foo = \\"bar\\";
 
 console.log(a);
 console.log(foo);
@@ -31,9 +31,9 @@ export { a, foo };
 `;
 
 exports[`resolve > ts 1`] = `
-"const a = 'a';
+"const a = \\"a\\";
 
-const foo = 'bar';
+const foo = \\"bar\\";
 
 export { a, foo };
 "
