@@ -54,6 +54,14 @@
     },
     "./*": "./*"
   },
+  "typesVersions": {
+    "<=4.9": {
+      "*": [
+        "./dist/*",
+        "./*"
+      ]
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
