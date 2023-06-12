@@ -1,5 +1,5 @@
 import path from 'node:path'
-import type { FilterPattern } from '@rollup/pluginutils'
+import { type FilterPattern } from '@rollup/pluginutils'
 
 export interface Options {
   include?: FilterPattern

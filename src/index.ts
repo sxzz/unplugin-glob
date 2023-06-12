@@ -2,10 +2,9 @@ import path from 'node:path'
 import { createUnplugin } from 'unplugin'
 import { createFilter, normalizePath } from '@rollup/pluginutils'
 import glob from 'fast-glob'
-import { resolveOption } from './core/options'
+import { type Options, resolveOption } from './core/options'
 import { writeTypeDeclaration } from './core/dts'
 import { ID_PREFIX } from './core/constants'
-import type { Options } from './core/options'
 
 export type GlobMap = Record<string /* name:pattern */, string[]>
 
@@ -26,8 +25,8 @@ export default createUnplugin<Options>((options = {}) => {
       if (!src || !filter(src)) return
 
       const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
-      return `${ID_PREFIX}${name}:${src.replace(
-        /:/g,
+      return `${ID_PREFIX}${name}:${src.replaceAll(
+        ':',
         DRIVER_DIVIDER
       )}:${pattern}`
     },
@@ -36,7 +35,7 @@ export default createUnplugin<Options>((options = {}) => {
       if (!id.startsWith(ID_PREFIX)) return
 
       const [name, src, pattern] = id.replace(ID_PREFIX, '').split(':', 3)
-      const filename = src.replace(DRIVER_DIVIDER_REGEXP, ':')
+      const filename = src.replaceAll(DRIVER_DIVIDER_REGEXP, ':')
 
       const files = (
         await glob(pattern, {

@@ -3,7 +3,7 @@ export function pascalCase(str: string) {
 }
 
 export function camelCase(str: string) {
-  return str.replace(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
+  return str.replaceAll(/-(\w)/g, (_, c) => (c ? c.toUpperCase() : ''))
 }
 
 export function capitalize(str: string) {
