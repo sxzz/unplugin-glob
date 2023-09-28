@@ -67,8 +67,8 @@
   },
   "scripts": {
     "lint": "eslint --cache .",
-    "lint:fix": "pnpm run lint -- --fix",
-    "build": "tsup && tsx scripts/postbuild.mts",
+    "lint:fix": "pnpm run lint --fix",
+    "build": "tsup",
     "test": "vitest",
     "release": "bumpp && pnpm publish",
     "prepublishOnly": "pnpm run build"
