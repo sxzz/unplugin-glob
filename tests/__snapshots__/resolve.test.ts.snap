@@ -5,6 +5,8 @@ exports[`resolve > basic 1`] = `
 
 const foo = \\"bar\\";
 
+\\"use strict\\";
+
 export { a, foo };
 "
 `;
