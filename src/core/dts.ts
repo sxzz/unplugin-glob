@@ -21,7 +21,7 @@ declare global {
 /// <reference path="${globalPath}" />\n`
 
   const sortedEntries = Object.entries(map).sort(([a], [b]) =>
-    a.localeCompare(b)
+    a.localeCompare(b),
   )
 
   for (const [idx, [id, files]] of sortedEntries.entries()) {

@@ -27,7 +27,7 @@ export default createUnplugin<Options>((options = {}) => {
       const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
       return `${ID_PREFIX}${name}:${src.replaceAll(
         ':',
-        DRIVER_DIVIDER
+        DRIVER_DIVIDER,
       )}:${pattern}`
     },
 
