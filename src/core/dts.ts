@@ -2,9 +2,9 @@ import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { getExportsStatic } from 'pkg-exports'
 import { normalizePath } from '@rollup/pluginutils'
-import { type GlobMap } from '..'
 import { ID_PREFIX } from './constants'
 import { pascalCase } from './utils'
+import type { GlobMap } from '..'
 
 export async function getTypeDeclaration(map: GlobMap, filename: string) {
   function relatePath(filepath: string) {
@@ -21,7 +21,7 @@ declare global {
 /// <reference path="${globalPath}" />\n`
 
   const sortedEntries = Object.entries(map).sort(([a], [b]) =>
-    a.localeCompare(b)
+    a.localeCompare(b),
   )
 
   for (const [idx, [id, files]] of sortedEntries.entries()) {
