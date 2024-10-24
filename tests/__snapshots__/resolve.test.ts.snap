@@ -1,6 +1,54 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`resolve > basic 1`] = `
+exports[`resolve > EsBuild: basic 1`] = `
+"(() => {
+  // tests/fixtures/mod/a.ts
+  var a = "a";
+
+  // tests/fixtures/mod/b.ts
+  var foo = "bar";
+})();
+"
+`;
+
+exports[`resolve > EsBuild: exclude-self 1`] = `
+"(() => {
+  // tests/fixtures/mod/a.ts
+  var a = "a";
+
+  // tests/fixtures/mod/b.ts
+  var foo = "bar";
+})();
+"
+`;
+
+exports[`resolve > EsBuild: import-all 1`] = `
+"(() => {
+  // tests/fixtures/mod/a.ts
+  var a = "a";
+
+  // tests/fixtures/mod/b.ts
+  var foo = "bar";
+
+  // tests/fixtures/import-all.ts
+  console.log(a);
+  console.log(foo);
+})();
+"
+`;
+
+exports[`resolve > EsBuild: ts 1`] = `
+"(() => {
+  // tests/fixtures/mod/a.ts
+  var a = "a";
+
+  // tests/fixtures/mod/b.ts
+  var foo = "bar";
+})();
+"
+`;
+
+exports[`resolve > Rollup: basic 1`] = `
 "const a = "a";
 
 const foo = "bar";
@@ -11,7 +59,7 @@ export { a, foo };
 "
 `;
 
-exports[`resolve > exclude-self 1`] = `
+exports[`resolve > Rollup: exclude-self 1`] = `
 "const a = "a";
 
 const foo = "bar";
@@ -20,7 +68,7 @@ export { a, foo };
 "
 `;
 
-exports[`resolve > import-all 1`] = `
+exports[`resolve > Rollup: import-all 1`] = `
 "const a = "a";
 
 const foo = "bar";
@@ -32,7 +80,7 @@ export { a, foo };
 "
 `;
 
-exports[`resolve > ts 1`] = `
+exports[`resolve > Rollup: ts 1`] = `
 "const a = "a";
 
 const foo = "bar";

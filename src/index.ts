@@ -1,7 +1,7 @@
-import path from 'node:path'
+import path, { dirname } from 'node:path'
 import { createFilter, normalizePath } from '@rollup/pluginutils'
 import glob from 'fast-glob'
-import { createUnplugin } from 'unplugin'
+import { createUnplugin, type UnpluginOptions } from 'unplugin'
 import { ID_PREFIX } from './core/constants'
 import { writeTypeDeclaration } from './core/dts'
 import { resolveOption, type Options } from './core/options'
@@ -17,7 +17,7 @@ export default createUnplugin<Options>((options = {}) => {
   const filter = createFilter(opt.include, opt.exclude)
   const map: GlobMap = {}
 
-  return {
+  const context = {
     name,
 
     resolveId(id, src) {
@@ -60,5 +60,33 @@ export default createUnplugin<Options>((options = {}) => {
         opt.root = config.root
       },
     },
-  }
+
+    esbuild: {
+      setup(build) {
+        build.onResolve(
+          { filter: new RegExp(`^${ID_PREFIX}`) },
+          ({ path, importer }) => {
+            return {
+              path: context.resolveId(path, importer)!,
+              namespace: name,
+            }
+          },
+        )
+
+        build.onLoad(
+          { filter: new RegExp(`^${ID_PREFIX}`), namespace: name },
+          async ({ path }) => {
+            // eslint-disable-next-line unused-imports/no-unused-vars
+            const [_, src] = path.replace(ID_PREFIX, '').split(':', 2)
+            return {
+              contents: await Reflect.apply(context.load, null, [path]),
+              resolveDir: dirname(src),
+            }
+          },
+        )
+      },
+    },
+  } satisfies UnpluginOptions
+
+  return context
 })
