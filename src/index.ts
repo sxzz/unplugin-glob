@@ -1,16 +1,16 @@
 import path from 'node:path'
-import { createUnplugin } from 'unplugin'
 import { createFilter, normalizePath } from '@rollup/pluginutils'
 import glob from 'fast-glob'
-import { type Options, resolveOption } from './core/options'
-import { writeTypeDeclaration } from './core/dts'
+import { createUnplugin } from 'unplugin'
 import { ID_PREFIX } from './core/constants'
+import { writeTypeDeclaration } from './core/dts'
+import { resolveOption, type Options } from './core/options'
 
 export type GlobMap = Record<string /* name:pattern */, string[]>
 
 const name = 'unplugin-glob'
 const DRIVER_DIVIDER = '[DRIVER_DIVIDER]'
-const DRIVER_DIVIDER_REGEXP = /\[DRIVER_DIVIDER]/g
+const DRIVER_DIVIDER_REGEXP = /\[DRIVER_DIVIDER\]/g
 
 export default createUnplugin<Options>((options = {}) => {
   const opt = resolveOption(options)

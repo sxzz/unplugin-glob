@@ -1,8 +1,8 @@
 import path from 'node:path'
-import { describe, expect, test } from 'vitest'
-import { rollup } from 'rollup'
 import glob from 'fast-glob'
+import { rollup } from 'rollup'
 import Esbuild from 'rollup-plugin-esbuild'
+import { describe, expect, test } from 'vitest'
 import Plugin from '../src/rollup'
 
 describe('resolve', async () => {

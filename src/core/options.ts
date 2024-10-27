@@ -1,4 +1,5 @@
 import path from 'node:path'
+import process from 'node:process'
 import type { FilterPattern } from '@rollup/pluginutils'
 
 export interface Options {
