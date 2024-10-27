@@ -80,8 +80,9 @@ export default createUnplugin<Options>((options = {}) => {
         build.onLoad(
           { filter: new RegExp(`^${ID_PREFIX}`), namespace: name },
           async ({ path }) => {
-            // eslint-disable-next-line unused-imports/no-unused-vars
-            const [_, src] = path.replace(ID_PREFIX, '').split(':', 2)
+            let [, src] = path.replace(ID_PREFIX, '').split(':', 2)
+            src = src.replaceAll(DRIVER_DIVIDER_REGEXP, ':')
+
             return {
               contents: await load(path),
               resolveDir: dirname(src),
