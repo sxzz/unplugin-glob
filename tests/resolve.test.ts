@@ -1,11 +1,11 @@
 import path from 'node:path'
-import { describe, expect, test } from 'vitest'
-import { rollup } from 'rollup'
 import { build } from 'esbuild'
 import glob from 'fast-glob'
+import { rollup } from 'rollup'
 import Esbuild from 'rollup-plugin-esbuild'
-import RollupPlugin from '../src/rollup'
+import { describe, expect, test } from 'vitest'
 import EsBuildPlugin from '../src/esbuild'
+import RollupPlugin from '../src/rollup'
 
 describe('resolve', async () => {
   const fixtures = await glob(['./fixtures/*.{js,ts}', '!**/*.d.ts'], {
@@ -31,7 +31,7 @@ describe('resolve', async () => {
       expect(output[0].code).toMatchSnapshot()
     })
 
-    test(`EsBuild: ${filename}`, async () => {
+    test(`esbuild: ${filename}`, async () => {
       const bundle = await build({
         entryPoints: [fixture],
         treeShaking: false,
@@ -40,7 +40,7 @@ describe('resolve', async () => {
         plugins: [
           EsBuildPlugin({
             dts: path.resolve(path.dirname(fixture), `${filename}-glob`),
-          }) as any,
+          }),
         ],
       })
       const { outputFiles } = bundle
