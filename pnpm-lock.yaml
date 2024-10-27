@@ -36,6 +36,9 @@ importers:
       bumpp:
         specifier: ^9.7.1
         version: 9.7.1
+      esbuild:
+        specifier: ^0.24.0
+        version: 0.24.0
       eslint:
         specifier: ^9.13.0
         version: 9.13.0(jiti@1.21.6)
