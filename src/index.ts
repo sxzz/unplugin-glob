@@ -17,42 +17,48 @@ export default createUnplugin<Options>((options = {}) => {
   const filter = createFilter(opt.include, opt.exclude)
   const map: GlobMap = {}
 
-  const context = {
+  const resolveId = (id: string, src: string | undefined) => {
+    if (!src || !filter(src)) return
+
+    const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
+    return `${ID_PREFIX}${name}:${src.replaceAll(
+      ':',
+      DRIVER_DIVIDER,
+    )}:${pattern}`
+  }
+
+  const load = async (id: string) => {
+    const [name, src, pattern] = id.replace(ID_PREFIX, '').split(':', 3)
+    const filename = src.replaceAll(DRIVER_DIVIDER_REGEXP, ':')
+
+    const files = (
+      await glob(pattern, {
+        cwd: filename ? path.dirname(filename) : opt.root,
+        absolute: true,
+      })
+    )
+      .map((file) => normalizePath(file))
+      .filter((file) => file !== normalizePath(filename))
+      .sort()
+    map[`${name}:${pattern}`] = files
+
+    const contents = files.map((file) => `export * from '${file}'`).join('\n')
+
+    if (opt.dts) await writeTypeDeclaration(map, opt.dts)
+
+    return `${contents}\n`
+  }
+
+  const context: UnpluginOptions = {
     name,
 
-    resolveId(id, src) {
+    resolveId(id, importer) {
       if (!id.startsWith(ID_PREFIX)) return
-      if (!src || !filter(src)) return
-
-      const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
-      return `${ID_PREFIX}${name}:${src.replaceAll(
-        ':',
-        DRIVER_DIVIDER,
-      )}:${pattern}`
+      return resolveId(id, importer)
     },
-
-    async load(id) {
+    load(id) {
       if (!id.startsWith(ID_PREFIX)) return
-
-      const [name, src, pattern] = id.replace(ID_PREFIX, '').split(':', 3)
-      const filename = src.replaceAll(DRIVER_DIVIDER_REGEXP, ':')
-
-      const files = (
-        await glob(pattern, {
-          cwd: filename ? path.dirname(filename) : opt.root,
-          absolute: true,
-        })
-      )
-        .map((file) => normalizePath(file))
-        .filter((file) => file !== normalizePath(filename))
-        .sort()
-      map[`${name}:${pattern}`] = files
-
-      const contents = files.map((file) => `export * from '${file}'`).join('\n')
-
-      if (opt.dts) await writeTypeDeclaration(map, opt.dts)
-
-      return `${contents}\n`
+      return load(id)
     },
 
     vite: {
@@ -66,10 +72,8 @@ export default createUnplugin<Options>((options = {}) => {
         build.onResolve(
           { filter: new RegExp(`^${ID_PREFIX}`) },
           ({ path, importer }) => {
-            return {
-              path: context.resolveId(path, importer)!,
-              namespace: name,
-            }
+            const id = resolveId(path, importer)
+            if (id) return { path: id, namespace: name }
           },
         )
 
@@ -79,14 +83,14 @@ export default createUnplugin<Options>((options = {}) => {
             // eslint-disable-next-line unused-imports/no-unused-vars
             const [_, src] = path.replace(ID_PREFIX, '').split(':', 2)
             return {
-              contents: await Reflect.apply(context.load, null, [path]),
+              contents: await load(path),
               resolveDir: dirname(src),
             }
           },
         )
       },
     },
-  } satisfies UnpluginOptions
+  }
 
   return context
 })
