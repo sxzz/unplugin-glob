@@ -84,7 +84,7 @@
     "@sxzz/eslint-config": "^4.4.0",
     "@sxzz/prettier-config": "^2.0.2",
     "@types/node": "^22.8.1",
-    "bumpp": "^9.7.1",
+    "bumpp": "^10.2.0",
     "esbuild": "^0.24.0",
     "eslint": "^9.13.0",
     "prettier": "^3.3.3",
