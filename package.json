@@ -86,7 +86,7 @@
     "@types/node": "^22.8.1",
     "bumpp": "^9.7.1",
     "esbuild": "^0.24.0",
-    "eslint": "^9.13.0",
+    "eslint": "^10.0.0",
     "prettier": "^3.3.3",
     "rollup": "^4.24.0",
     "rollup-plugin-esbuild": "^6.1.1",
