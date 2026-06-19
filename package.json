@@ -1,103 +1,78 @@
 {
   "name": "unplugin-glob",
+  "type": "module",
   "version": "0.3.3",
   "packageManager": "pnpm@11.8.0",
   "description": "Imports or exports files using glob match for ES Module.",
-  "keywords": [
-    "unplugin",
-    "rollup",
-    "vite",
-    "esbuild",
-    "webpack"
-  ],
+  "author": "Kevin Deng <sxzz@sxzz.moe>",
   "license": "MIT",
   "homepage": "https://github.com/sxzz/unplugin-glob#readme",
-  "bugs": {
-    "url": "https://github.com/sxzz/unplugin-glob/issues"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/sxzz/unplugin-glob.git"
   },
-  "author": "三咲智子 <sxzz@sxzz.moe>",
+  "bugs": {
+    "url": "https://github.com/sxzz/unplugin-glob/issues"
+  },
+  "keywords": [
+    "unplugin",
+    "rollup",
+    "vite",
+    "webpack"
+  ],
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./farm": "./dist/farm.mjs",
+    "./rolldown": "./dist/rolldown.mjs",
+    "./rollup": "./dist/rollup.mjs",
+    "./vite": "./dist/vite.mjs",
+    "./package.json": "./package.json"
+  },
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "import": "./dist/index.mjs"
-    },
-    "./vite": {
-      "types": "./dist/vite.d.ts",
-      "require": "./dist/vite.js",
-      "import": "./dist/vite.mjs"
-    },
-    "./webpack": {
-      "types": "./dist/webpack.d.ts",
-      "require": "./dist/webpack.js",
-      "import": "./dist/webpack.mjs"
-    },
-    "./rollup": {
-      "types": "./dist/rollup.d.ts",
-      "require": "./dist/rollup.js",
-      "import": "./dist/rollup.mjs"
-    },
-    "./esbuild": {
-      "types": "./dist/esbuild.d.ts",
-      "require": "./dist/esbuild.js",
-      "import": "./dist/esbuild.mjs"
-    },
-    "./*": "./*"
-  },
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
-    }
-  },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": "^22.18.0 || >=24.0.0"
   },
   "scripts": {
     "lint": "eslint --cache .",
     "lint:fix": "pnpm run lint --fix",
-    "build": "tsup",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "test": "vitest",
-    "release": "bumpp && pnpm publish",
+    "typecheck": "tsgo --noEmit",
+    "format": "prettier --cache --write .",
+    "release": "bumpp",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@rollup/pluginutils": "^5.4.0",
+    "change-case": "^5.4.4",
     "magic-string": "^0.30.21",
     "pkg-exports": "^0.2.0",
     "tinyglobby": "^0.2.17",
-    "unplugin": "^3.0.0"
+    "unplugin": "^3.0.0",
+    "unplugin-utils": "^0.3.1"
   },
   "devDependencies": {
     "@sxzz/eslint-config": "^8.2.1",
     "@sxzz/prettier-config": "^2.3.1",
+    "@sxzz/test-utils": "^0.5.18",
     "@types/node": "^26.0.0",
+    "@typescript/native-preview": "7.0.0-dev.20260619.1",
     "bumpp": "^11.1.0",
-    "esbuild": "^0.28.1",
     "eslint": "^10.5.0",
     "prettier": "^3.8.4",
+    "rolldown": "^1.1.2",
     "rollup": "^4.62.1",
-    "rollup-plugin-esbuild": "^6.2.1",
-    "tsup": "^8.5.1",
-    "tsx": "^4.22.4",
+    "tsdown": "^0.22.3",
+    "tsdown-preset-sxzz": "^0.6.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.16",
     "vitest": "^4.1.9"
-  },
-  "engines": {
-    "node": "^22.18.0 || >=24.0.0"
   },
   "prettier": "@sxzz/prettier-config"
 }

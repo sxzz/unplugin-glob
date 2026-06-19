@@ -1,18 +1,29 @@
-# unplugin-glob [![npm](https://img.shields.io/npm/v/unplugin-glob.svg)](https://npmjs.com/package/unplugin-glob)
+# unplugin-glob
 
-[![Unit Test](https://github.com/sxzz/unplugin-glob/actions/workflows/unit-test.yml/badge.svg)](https://github.com/sxzz/unplugin-glob/actions/workflows/unit-test.yml)
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![Unit Test][unit-test-src]][unit-test-href]
 
 Imports or exports files using glob match for ES Module.
 
 # Features
 
-- ⚡️ Supports Vite, Webpack, Vue CLI, Rollup, esbuild and more, powered by [unplugin](https://github.com/unjs/unplugin).
+- ⚡️ Supports Vite, Rollup, and Rolldown, powered by [unplugin](https://github.com/unjs/unplugin).
 - 🦾 Full TypeScript support.
+
+## Usage
+
+```ts
+import * as mods from './some-path/*.js'
+console.log(mods.foo)
+
+export * from './some-path/**'
+```
 
 ## Installation
 
 ```bash
-npm i unplugin-glob
+npm i -D unplugin-glob
 ```
 
 <details>
@@ -20,10 +31,10 @@ npm i unplugin-glob
 
 ```ts
 // vite.config.ts
-import UnpluginGlob from 'unplugin-glob/vite'
+import Starter from 'unplugin-glob/vite'
 
 export default defineConfig({
-  plugins: [UnpluginGlob()],
+  plugins: [Starter()],
 })
 ```
 
@@ -34,83 +45,28 @@ export default defineConfig({
 
 ```ts
 // rollup.config.js
-import UnpluginGlob from 'unplugin-glob/rollup'
+import Starter from 'unplugin-glob/rollup'
 
 export default {
-  plugins: [UnpluginGlob()],
+  plugins: [Starter()],
 }
 ```
 
 <br></details>
 
 <details>
-<summary>esbuild</summary><br>
+<summary>Rolldown / tsdown</summary><br>
 
 ```ts
-// esbuild.config.js
-import { build } from 'esbuild'
+// rolldown.config.ts / tsdown.config.ts
+import Starter from 'unplugin-glob/rolldown'
 
-build({
-  plugins: [require('unplugin-glob/esbuild')()],
-})
-```
-
-<br></details>
-
-<details>
-<summary>Webpack</summary><br>
-
-```ts
-// webpack.config.js
-module.exports = {
-  /* ... */
-  plugins: [require('unplugin-glob/webpack')()],
+export default {
+  plugins: [Starter()],
 }
 ```
 
 <br></details>
-
-<details>
-<summary>Vue CLI</summary><br>
-
-```ts
-// vue.config.js
-module.exports = {
-  configureWebpack: {
-    plugins: [require('unplugin-glob/webpack')()],
-  },
-}
-```
-
-<br></details>
-
-## Usage
-
-```ts
-// To avoid type declaration conflicts, a name is needed for each directory.
-import * as all from 'glob:name:./some-path/*.js'
-
-console.log(all.sth)
-
-export * from 'glob:name:./some-path/**'
-```
-
-## Configuration
-
-```ts
-Glob({
-  // targets to resolve
-  include: [/\.m?[jt]sx?$/],
-  exclude: options.exclude || [/\.d\.ts$/],
-
-  root: process.cwd(),
-
-  // Filepath to generate corresponding .d.ts files.
-  // Defaults to both './glob.d.ts' and 'glob-global.d.ts' when provided `true`.
-  // Set `false` to disable.
-  dts: false, // boolean or string
-})
-```
 
 ## Sponsors
 
@@ -122,4 +78,13 @@ Glob({
 
 ## License
 
-[MIT](./LICENSE) License © 2022-PRESENT [三咲智子](https://github.com/sxzz)
+[MIT](./LICENSE) License © 2025-PRESENT [Kevin Deng](https://github.com/sxzz)
+
+<!-- Badges -->
+
+[npm-version-src]: https://img.shields.io/npm/v/unplugin-glob.svg
+[npm-version-href]: https://npmjs.com/package/unplugin-glob
+[npm-downloads-src]: https://img.shields.io/npm/dm/unplugin-glob
+[npm-downloads-href]: https://www.npmcharts.com/compare/unplugin-glob?interval=30
+[unit-test-src]: https://github.com/sxzz/unplugin-glob/actions/workflows/unit-test.yml/badge.svg
+[unit-test-href]: https://github.com/sxzz/unplugin-glob/actions/workflows/unit-test.yml

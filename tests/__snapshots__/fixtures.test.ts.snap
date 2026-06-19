@@ -1,0 +1,53 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`fixtures > fixtures/basic.js 1`] = `
+"// basic.js
+//#region tests/fixtures/mod/a.ts
+const a = "a";
+//#endregion
+//#region tests/fixtures/mod/b.ts
+const foo = "bar";
+//#endregion
+export { a, foo };
+"
+`;
+
+exports[`fixtures > fixtures/import-all.ts 1`] = `
+"// import-all.js
+//#region tests/fixtures/mod/a.ts
+const a = "a";
+//#endregion
+//#region tests/fixtures/mod/b.ts
+const foo = "bar";
+//#endregion
+//#region tests/fixtures/import-all.ts
+console.log("a");
+console.log("bar");
+//#endregion
+export { a, foo };
+"
+`;
+
+exports[`fixtures > fixtures/self-import.js 1`] = `
+"// self-import.js
+//#region tests/fixtures/mod/a.ts
+const a = "a";
+//#endregion
+//#region tests/fixtures/mod/b.ts
+const foo = "bar";
+//#endregion
+export { a, foo };
+"
+`;
+
+exports[`fixtures > fixtures/ts.ts 1`] = `
+"// ts.js
+//#region tests/fixtures/mod/a.ts
+const a = "a";
+//#endregion
+//#region tests/fixtures/mod/b.ts
+const foo = "bar";
+//#endregion
+export { a, foo };
+"
+`;

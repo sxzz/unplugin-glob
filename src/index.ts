@@ -1,97 +1,47 @@
 import { dirname } from 'node:path'
-import { createFilter, normalizePath } from '@rollup/pluginutils'
-import { glob } from 'tinyglobby'
-import { createUnplugin, type UnpluginOptions } from 'unplugin'
-import { ID_PREFIX } from './core/constants'
-import { writeTypeDeclaration } from './core/dts'
-import { resolveOption, type Options } from './core/options'
-
-export type GlobMap = Record<string /* name:pattern */, string[]>
+import { glob, isDynamicPattern } from 'tinyglobby'
+import {
+  createUnplugin,
+  type UnpluginInstance,
+  type UnpluginOptions,
+} from 'unplugin'
+import { createFilter } from 'unplugin-utils'
+import { resolveOption, type Options } from './core/options.ts'
 
 const name = 'unplugin-glob'
-const DRIVER_DIVIDER = '[DRIVER_DIVIDER]'
-const DRIVER_DIVIDER_REGEXP = /\[DRIVER_DIVIDER\]/g
+const GLOB_RE = /[*?[\]{}()!+@]/
 
-export default createUnplugin<Options>((options = {}) => {
-  const opt = resolveOption(options)
-  const filter = createFilter(opt.include, opt.exclude)
-  const map: GlobMap = {}
+export const Glob: UnpluginInstance<Options | undefined, false> =
+  createUnplugin((rawOptions = {}) => {
+    const options = resolveOption(rawOptions)
+    const filter = createFilter(options.include, options.exclude)
 
-  const resolveId = (id: string, src: string | undefined) => {
-    if (!src || !filter(src)) return
-
-    const [name, pattern] = id.replace(ID_PREFIX, '').split(':', 2)
-    return `${ID_PREFIX}${name}:${src.replaceAll(
-      ':',
-      DRIVER_DIVIDER,
-    )}:${pattern}`
-  }
-
-  const load = async (id: string) => {
-    const [name, src, pattern] = id.replace(ID_PREFIX, '').split(':', 3)
-    const filename = src.replaceAll(DRIVER_DIVIDER_REGEXP, ':')
-
-    const files = (
-      await glob(pattern, {
-        cwd: filename ? dirname(filename) : opt.root,
-        absolute: true,
-      })
-    )
-      .map((file) => normalizePath(file))
-      .filter((file) => file !== normalizePath(filename))
-      .sort()
-    map[`${name}:${pattern}`] = files
-
-    const contents = files.map((file) => `export * from '${file}'`).join('\n')
-
-    if (opt.dts) await writeTypeDeclaration(map, opt.dts)
-
-    return `${contents}\n`
-  }
-
-  const context: UnpluginOptions = {
-    name,
-
-    resolveId(id, importer) {
-      if (!id.startsWith(ID_PREFIX)) return
-      return resolveId(id, importer)
-    },
-    load(id) {
-      if (!id.startsWith(ID_PREFIX)) return
-      return load(id)
-    },
-
-    vite: {
-      configResolved(config) {
-        opt.root = config.root
+    const context: UnpluginOptions = {
+      name,
+      resolveId: {
+        filter: { id: GLOB_RE },
+        handler(id, importer) {
+          if (!importer || !filter(importer)) return
+          if (!isDynamicPattern(id)) return
+          return `${name}:${dirname(importer)}?${id}`
+        },
       },
-    },
-
-    esbuild: {
-      setup(build) {
-        build.onResolve(
-          { filter: new RegExp(`^${ID_PREFIX}`) },
-          ({ path, importer }) => {
-            const id = resolveId(path, importer)
-            if (id) return { path: id, namespace: name }
-          },
-        )
-
-        build.onLoad(
-          { filter: new RegExp(`^${ID_PREFIX}`), namespace: name },
-          async ({ path }) => {
-            let [, src] = path.replace(ID_PREFIX, '').split(':', 2)
-            src = src.replaceAll(DRIVER_DIVIDER_REGEXP, ':')
-
-            return {
-              contents: await load(path),
-              resolveDir: dirname(src),
-            }
-          },
-        )
+      load: {
+        filter: {
+          id: new RegExp(`^${name}:`),
+        },
+        async handler(id) {
+          const [cwd, pattern] = id.slice(name.length + 1).split('?', 2)
+          const files = await glob(pattern, {
+            cwd,
+            absolute: true,
+          })
+          return files
+            .map((file) => `export * from ${JSON.stringify(file)}`)
+            .join('\n')
+        },
       },
-    },
-  }
+    }
 
-  return context
-})
+    return context
+  })

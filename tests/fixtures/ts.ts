@@ -1,1 +1,1 @@
-export * from 'glob:ts:./mod/**'
+export * from './mod/**'

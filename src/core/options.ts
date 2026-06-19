@@ -1,29 +1,15 @@
-import path from 'node:path'
-import process from 'node:process'
-import type { FilterPattern } from '@rollup/pluginutils'
+import type { FilterPattern } from 'unplugin'
 
 export interface Options {
   include?: FilterPattern
   exclude?: FilterPattern | undefined
-  dts?: boolean | string
-  root?: string
 }
 
-export type OptionsResolved = Omit<Required<Options>, 'dts'> & {
-  dts: string | false
-}
+export type OptionsResolved = Required<Options>
 
 export function resolveOption(options: Options): OptionsResolved {
-  const root = options.root ?? process.cwd()
-
-  let dts: string | false
-  if (options.dts === true) dts = path.resolve(root, 'glob')
-  else dts = options.dts ?? false
-
   return {
-    include: options.include || [/\.m?[jt]sx?$/],
-    exclude: options.exclude || [/\.d\.ts$/],
-    dts,
-    root,
+    include: options.include || [/\.[cm]?[jt]sx?$/],
+    exclude: options.exclude || [/node_modules/],
   }
 }
