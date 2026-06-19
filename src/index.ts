@@ -1,4 +1,4 @@
-import path, { dirname } from 'node:path'
+import { dirname } from 'node:path'
 import { createFilter, normalizePath } from '@rollup/pluginutils'
 import { glob } from 'tinyglobby'
 import { createUnplugin, type UnpluginOptions } from 'unplugin'
@@ -33,7 +33,7 @@ export default createUnplugin<Options>((options = {}) => {
 
     const files = (
       await glob(pattern, {
-        cwd: filename ? path.dirname(filename) : opt.root,
+        cwd: filename ? dirname(filename) : opt.root,
         absolute: true,
       })
     )
