@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { build } from 'esbuild'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { rollup } from 'rollup'
 import Esbuild from 'rollup-plugin-esbuild'
 import { describe, expect, test } from 'vitest'

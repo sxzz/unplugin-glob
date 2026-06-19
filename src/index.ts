@@ -1,6 +1,6 @@
 import path, { dirname } from 'node:path'
 import { createFilter, normalizePath } from '@rollup/pluginutils'
-import glob from 'fast-glob'
+import { glob } from 'tinyglobby'
 import { createUnplugin, type UnpluginOptions } from 'unplugin'
 import { ID_PREFIX } from './core/constants'
 import { writeTypeDeclaration } from './core/dts'
